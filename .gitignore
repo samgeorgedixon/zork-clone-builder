@@ -1,0 +1,17 @@
+.vs
+.git
+
+*.sln
+*.slnx
+*.code-workspace
+*.vcxproj
+*.user
+*.filters
+
+*.tmp
+~$*
+
+/bin
+/releases
+
+/gen-vs-2026.bat
