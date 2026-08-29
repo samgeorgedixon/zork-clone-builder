@@ -13,3 +13,5 @@ void CloseFrame();
 
 ImGuiWindowFlags SetFullscreen();
 void SetRenderedWindowName(const std::string& windowName);
+
+std::string OpenFileDialog(const char* filter);

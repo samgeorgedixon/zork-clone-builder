@@ -9,6 +9,7 @@
 #include "rendering.h"
 #include "zork_script.h"
 
+bool reloadZorkScript = false;
 static bool finished = false;
 static bool showImGui = true;
 static bool scrollBottom = false;
@@ -55,6 +56,15 @@ void DisplayAttributes() {
 void MenuGUI() {
 	if (ImGui::BeginMenuBar()) {
 		if (ImGui::BeginMenu("File")) {
+			if (ImGui::MenuItem("Open Zork Script", NULL, false, finished != true)) {
+				std::string fileName = OpenFileDialog("Zork Script (*.lua)\0 * .lua\0All Files (*.*)\0*.*\0");
+				
+				if (!fileName.empty()) {
+					reloadZorkScript = true;
+					CallLuaToClose();
+					SetFileName(fileName);
+				}
+			}
 			if (ImGui::MenuItem("Exit", NULL, false, finished != true)) {
 				finished = true;
 			}
@@ -107,7 +117,7 @@ void RenderGUI() {
 void Run() {
 	std::thread luaZorkScript(RunZorkScript);
 
-	while (!finished) {
+	while (!finished && !reloadZorkScript) {
 		if (windowNameChanged) {
 			SetRenderedWindowName(windowName);
 			windowNameChanged = false;
@@ -120,9 +130,16 @@ void Run() {
 		CloseFrame();
 	}
 
-	CallLuaToClose();
+	if (!reloadZorkScript) {
+		CallLuaToClose();
+	}
 	
 	luaZorkScript.join();
+	
+	if (reloadZorkScript) {
+		reloadZorkScript = false;
+		Run();
+	}
 }
 
 void Close() {

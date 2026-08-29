@@ -8,7 +8,8 @@
 
 #include "application.h"
 
-std::string fileName = "zork-script.lua";
+static std::string fileName = "zork-script.lua";
+static bool reloadZorkScript = false;
 
 static std::string command = "";
 static bool commandNew = false;
@@ -21,6 +22,10 @@ void SetCommand(const std::string& commandToSet) {
 }
 void CallLuaToClose() {
 	finished = true;
+}
+void SetFileName(const std::string& newFileName) {
+	fileName = newFileName;
+	reloadZorkScript = true;
 }
 
 std::vector<std::string> lua_GetCommand() {
@@ -75,9 +80,20 @@ void lua_SetAttributes(const sol::table& attributes) {
 }
 
 void RunZorkScript() {
+
+	command = "";
+	commandNew = false;
+	finished = false;
+
 	ZORK_LOG("Running Zork Script: %s\n", fileName.c_str());
 
-	OutputGUIConsole("> ./" + fileName);
+	if (reloadZorkScript) {
+		OutputGUIConsole("> " + fileName);
+		reloadZorkScript = false;
+	}
+	else {
+		OutputGUIConsole("> ./" + fileName);
+	}
 
 	sol::state lua;
 	lua.open_libraries(sol::lib::base, sol::lib::io, sol::lib::math, sol::lib::table, sol::lib::string);
@@ -94,6 +110,10 @@ void RunZorkScript() {
 		lua.safe_script_file(fileName);
 	}
 	catch (const sol::error& e) {
-		ZORK_LOG("Error: %s\n", e.what());
+		if (!finished && !reloadZorkScript) {
+			ZORK_LOG("Error: %s\n", e.what());
+			OutputGUIConsole("Error: Can't execute script:\n" + std::string(e.what()));
+			OutputGUIConsole("Try open another script: File -> Open Zork Script");
+		}
 	}
 }

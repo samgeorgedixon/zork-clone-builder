@@ -2,6 +2,9 @@
 
 #include <string>
 
+#include <windows.h>
+#include <commdlg.h>
+
 #include "sdl3/SDL.h"
 #include "imgui/imgui_manager.h"
 
@@ -73,4 +76,32 @@ ImGuiWindowFlags SetFullscreen() {
 
 void SetRenderedWindowName(const std::string& windowName) {
 	SDL_SetWindowTitle(window, windowName.c_str());
+}
+
+std::string OpenFileDialog(const char* filter) {
+	HWND hwnd = (HWND)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_WIN32_HWND_POINTER, nullptr); // Window Handle
+
+	OPENFILENAMEA ofn;
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+
+	CHAR szFile[260] = { 0 };
+	CHAR currentDir[256] = { 0 };
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = hwnd;
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+
+	if (GetCurrentDirectoryA(256, currentDir))
+		ofn.lpstrInitialDir = currentDir;
+
+	ofn.lpstrFilter = filter;
+	ofn.nFilterIndex = 1;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+
+	if (GetOpenFileNameA(&ofn) == TRUE) {
+		return ofn.lpstrFile;
+	}
+
+	return "";
 }

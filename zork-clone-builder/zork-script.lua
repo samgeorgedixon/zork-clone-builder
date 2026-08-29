@@ -5,8 +5,6 @@ score = 0
 lives = 5
 moves = 0
 
-attributes = { { "Place", placeTitle }, { "Score", tostring(score) }, { "Lives", tostring(lives) }, { "Moves", tostring(moves) } }
-
 -- Place Functions
 
 function Test(command)
@@ -39,7 +37,7 @@ end
 -- Runtime
 
 zork.SetName("Example")
-zork.SetAttributes(attributes)
+zork.SetAttributes({ { "Place", placeTitle }, { "Score", tostring(score) }, { "Lives", tostring(lives) }, { "Moves", tostring(moves) } })
 
 zork.Output("Welcome, to ZORK!")
 
@@ -54,7 +52,7 @@ while true do
         place({})
     end
 
-    zork.SetAttributes(attributes)
+    zork.SetAttributes({ { "Place", placeTitle }, { "Score", tostring(score) }, { "Lives", tostring(lives) }, { "Moves", tostring(moves) } })
 
     command = zork.GetCommand()
     moves = moves + 1
