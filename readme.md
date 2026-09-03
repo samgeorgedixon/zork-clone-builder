@@ -8,6 +8,10 @@ However, you could use this builder to make a variety of text-based adventure ga
 
 I have included an example Zork game (exploring based) i wrote as zork-script.lua which you can try as the default game for this builder.
 
+Or you can load your own lua script: File -> Open Zork Script
+
+<img width="400" height="629" alt="Image" src="https://github.com/user-attachments/assets/8bc32593-6bdf-4ad3-b1f5-66ba1f550850" />
+
 ## Usage
 
 There is a windows x86-64 installer available under [releases](https://github.com/samgeorgedixon/zork-clone-builder/releases).
