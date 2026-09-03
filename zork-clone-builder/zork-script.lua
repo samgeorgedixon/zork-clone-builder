@@ -380,6 +380,8 @@ end
 
 -- Runtime
 
+command = {}
+
 function RunZork()
     placedTokens = 1
     gotRiverToken = false
@@ -395,7 +397,6 @@ function RunZork()
 
     zork.Output("Welcome, to ZORK!")
 
-    local command = {}
     local place = ForestEdge
 
     while true do
@@ -424,12 +425,10 @@ function RunZork()
     end
 end
 
-RunZork()
-
-zork.Output("\nWould you care to try again? (Y/n)")
-
-command = zork.GetCommand()
-
-if command[1] ~= "n" then
+while command[1] ~= "n" do
     RunZork()
+
+    zork.Output("\nWould you care to try again? (Y/n)")
+
+    command = zork.GetCommand()
 end
