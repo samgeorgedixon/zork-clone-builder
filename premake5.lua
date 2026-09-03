@@ -68,8 +68,8 @@ project "zork-clone-builder"
     postbuildcommands {
         ("{COPY} %{wks.location}vendor/sdl3/lib/x64/SDL3.dll %{cfg.targetdir}"),
         
-        ("{COPY} %{wks.location}zork-script-example/zork-script.lua %{cfg.targetdir}"),
-        ("{COPY} %{wks.location}zork-script-example/zork-script.lua %{prj.location}"),
+        ("{COPY} %{wks.location}examples/zork-script.lua %{cfg.targetdir}"),
+        ("{COPY} %{wks.location}examples/zork-script.lua %{prj.location}"),
 	}
     
     filter "configurations:debug"

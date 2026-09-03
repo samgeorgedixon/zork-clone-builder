@@ -19,7 +19,7 @@ void SetupRendering(const std::string windowName, const int windowWidth, const i
 	SDL_SetRenderVSync(renderer, 1);
 	SDL_SetRenderScale(renderer, 1, 1);
 
-	ImGuiSetup(window, renderer);
+	ImGuiSetup(window, renderer, true);
 }
 
 void CloseRendering() {

@@ -65,7 +65,6 @@ std::vector<std::string> lua_GetCommand() {
 void lua_SetName(const std::string& name) {
 	SetWindowName(name);
 }
-
 void lua_SetAttributes(const sol::table& attributes) {
 	std::vector<std::pair<std::string, std::string>> attributesConvert;
 
@@ -80,7 +79,6 @@ void lua_SetAttributes(const sol::table& attributes) {
 }
 
 void RunZorkScript() {
-
 	command = "";
 	commandNew = false;
 	finished = false;
@@ -99,12 +97,14 @@ void RunZorkScript() {
 	lua.open_libraries(sol::lib::base, sol::lib::io, sol::lib::math, sol::lib::table, sol::lib::string);
 
 	sol::table zork = lua.create_named_table("zork");
+
+	zork["End"] = &CallLuaToClose;
 	zork["GetCommand"] = &lua_GetCommand;
+
 	zork["SetName"] = &lua_SetName;
+	zork["SetAttributes"] = &lua_SetAttributes;
 
 	zork["Output"] = &OutputGUIConsole;
-
-	zork["SetAttributes"] = &lua_SetAttributes;
 
 	try {
 		lua.safe_script_file(fileName);

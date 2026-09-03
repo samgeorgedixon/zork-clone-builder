@@ -1,8 +1,17 @@
 #include "imgui_manager.h"
 
+void SetImGuiStyle(bool styleDark) {
+	if (styleDark) {
+		ImGui::StyleColorsDark();
+	}
+	else {
+		ImGui::StyleColorsLight();
+	}
+}
+
 ImGuiIO* io;
 
-void ImGuiSetup(SDL_Window* window, SDL_Renderer* renderer) {
+void ImGuiSetup(SDL_Window* window, SDL_Renderer* renderer, bool styleDark) {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
@@ -16,8 +25,7 @@ void ImGuiSetup(SDL_Window* window, SDL_Renderer* renderer) {
 
 	io->IniFilename = nullptr; // Remove INI File
 	
-	ImGui::StyleColorsDark();
-	//ImGui::StyleColorsLight();
+	SetImGuiStyle(styleDark);
 
 	ImGuiStyle& style = ImGui::GetStyle();
 	if (io->ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {

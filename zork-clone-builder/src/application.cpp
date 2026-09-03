@@ -95,7 +95,7 @@ void RenderGUI() {
 	ImGui::Separator();
 
 	DisplayAttributes();
-	
+
 	ImGui::Separator();
 	ImGui::Spacing();
 
@@ -122,7 +122,7 @@ void Run() {
 			SetRenderedWindowName(windowName);
 			windowNameChanged = false;
 		}
-		
+
 		finished = StartFrame();
 
 		RenderGUI();
@@ -133,9 +133,9 @@ void Run() {
 	if (!reloadZorkScript) {
 		CallLuaToClose();
 	}
-	
+
 	luaZorkScript.join();
-	
+
 	if (reloadZorkScript) {
 		reloadZorkScript = false;
 		Run();
